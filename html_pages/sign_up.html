@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Vestige - Sign In</title>
+    </head>
+    <body>
+        <p>Sign In to access our services, share art, and enjoy</p>
+        <form method="POST" action="http://127.0.0.1:8000/signup">
+            <label for="first_name">First Name</label>
+            <input id="first_name" name="first_name" type="text" placeholder="e.g. Hopkins" required>
+            <br><br>
+
+            <label for="last_name">Last Name</label>
+            <input id="last_name" name="last_name" type="text" placeholder="Waldens" required>
+            <br><br>
+
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" required>
+            <br><br>
+
+            <label for="password">Password</label>
+            <input id="password" name="password" type="password" required>
+            <br><br>
+
+            <label for="age">Age</label>
+            <input id="age" name="age" type="number" required>
+            <br><br>
+
+            <label for="country">Country</label>
+            <input id="country" name="country" type="text" required>
+            <br><br>
+            
+            <button type="submit">Create account</button>
+        </form>    
+    </body>
+</html>
