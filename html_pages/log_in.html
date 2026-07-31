@@ -1,20 +1,29 @@
 <!DOCTYPE html>
-<html>
+<html lang="en-US">
     <head>
+        <meta charset="UTF-8">
         <title>Vestige - Log In</title>
+        <link rel="stylesheet" href="/Users/kalepatestlaptop/my_h_tools/Projects/backend/vestige_gallery/css_design/login.css">
     </head>
+    <header class="header_design">
+        <h1 class="text_design">Vestige</h1>
+    </header>
     <body>
-        <p>Log In to access our services, share art, and enjoy</p>
-        <form method="POST" action="http://127.0.0.1:8000/login">
-            <label for="email">Email</label>
-            <input id="email" name="email" type="email" required>
-            <br><br>
+        <p class="text">Log In to access our services, share art, and enjoy</p>
+        <section class="main_body">
+            <form class="form-color" method="POST" action="http://127.0.0.1:8000/login">
+                <label class="text" for="email">Email</label>
+                <br><br>
+                <input class="text_input" id="email" name="email" type="email" required>
+                <br><br>
 
-            <label for="password">Password</label>
-            <input id="password" name="password" type="password" required>
-            <br><br>
-            <button type="submit">Log In</button>
-            <h2>{{error}}</h2>
-        </form>    
+                <label class="text" for="password">Password</label>
+                <br><br>
+                <input class="text_input" id="password" name="password" type="password" required>
+                <br><br>
+                <button class="button_submit" type="submit">Log In</button>
+                <h2>{{error}}</h2>
+            </form>    
+        </section>
     </body>
 </html>
