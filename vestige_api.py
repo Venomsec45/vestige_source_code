@@ -4,6 +4,7 @@ from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from datetime import datetime
 from typing import Annotated
+from database.db_connection import connect_to_db
 import mysql.connector
 
 # Reminder
@@ -25,15 +26,6 @@ class User(BaseModel):
     password: str
     age: Annotated[int, Field(ge=18, le=90)]
     country: str
-
-# For connecting to the database
-def connect_to_db():
-    return mysql.connector.connect(
-           host="127.0.0.1",
-           user="root",
-           password="pass123",
-           database="vestige_db"
-        )
 
 # Homepage
 @app.get("/home", response_class=HTMLResponse)
@@ -132,5 +124,3 @@ def account_login(request: Request, email: Annotated[str, Form()], password: Ann
     finally:
         cursor.close()
         db.close()
-
-
