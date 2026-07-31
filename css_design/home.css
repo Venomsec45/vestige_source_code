@@ -1,0 +1,11 @@
+.main_message {
+    color: red;
+}
+
+.link:active {
+    color: #1A1A1A;
+}
+
+.link:visited {
+    color: goldenrod;
+}
