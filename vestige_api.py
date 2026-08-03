@@ -18,9 +18,10 @@ templates_2 = Jinja2Templates(directory="html_pages/user_pages")
 
 # For initiating an api
 app = FastAPI()
+
+# For fetching pictures and css design
 app.mount("/css_design", StaticFiles(directory="css_design"), name="css")
 app.mount("/html_pages/pictures", StaticFiles(directory="html_pages/pictures"), name="picture")
-# /Users/kalepatestlaptop/my_h_tools/Projects/backend/vestige_gallery/html_pages/pictures
 
 
 # The structure of the data for the signup page
