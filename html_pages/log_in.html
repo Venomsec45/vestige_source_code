@@ -3,23 +3,29 @@
     <head>
         <meta charset="UTF-8">
         <title>Vestige - Log In</title>
-        <link rel="stylesheet" href="/Users/kalepatestlaptop/my_h_tools/Projects/backend/vestige_gallery/css_design/login.css">
+        <link rel="stylesheet" href="/css_design/login.css">
     </head>
-    <header class="header_design">
-        <h1 class="text_design">Vestige</h1>
+    <header>
+        <img class="logo_adjust" src="/html_pages/pictures/vestige_logo.png">
     </header>
     <body>
-        <p class="text">Log In to access our services, share art, and enjoy</p>
         <section class="main_body">
-            <form class="form-color" method="POST" action="http://127.0.0.1:8000/login">
-                <label class="text" for="email">Email</label>
-                <br><br>
-                <input class="text_input" id="email" name="email" type="email" required>
-                <br><br>
+            <form class="form-design" method="POST" action="http://127.0.0.1:8000/login">
+                <h1 class="text_2">Log In</h1>
+                <p class="text_3">Access our services, share art, and enjoy</p>
+                <div class="form_position">
+                    <label class="text_form" for="email">Email</label>
+                    <br><br>
+                    <input class="text_input" id="email" name="email" type="email" required>
+                    <br><br>
 
-                <label class="text" for="password">Password</label>
-                <br><br>
-                <input class="text_input" id="password" name="password" type="password" required>
+                    <label class="text_form" for="password">Password</label>
+                    <br><br>
+                    <input class="text_input" id="password" name="password" type="password" required>
+                    <br><br>
+
+                </div>
+
                 <br><br>
                 <button class="button_submit" type="submit">Log In</button>
                 <h2>{{error}}</h2>
