@@ -2,6 +2,7 @@ from pydantic import BaseModel, Field
 from fastapi import FastAPI, Form, Request
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
+from fastapi.staticfiles import StaticFiles
 from datetime import datetime
 from typing import Annotated
 from database.db_connection import connect_to_db
@@ -17,6 +18,10 @@ templates_2 = Jinja2Templates(directory="html_pages/user_pages")
 
 # For initiating an api
 app = FastAPI()
+app.mount("/css_design", StaticFiles(directory="css_design"), name="css")
+app.mount("/html_pages/pictures", StaticFiles(directory="html_pages/pictures"), name="picture")
+# /Users/kalepatestlaptop/my_h_tools/Projects/backend/vestige_gallery/html_pages/pictures
+
 
 # The structure of the data for the signup page
 class User(BaseModel):
@@ -58,8 +63,6 @@ def account_creation(user: Annotated[User, Form()], request: Request):
             user.country
         )
         cursor.execute(query, data)
-        cursor.close()
-        db.commit()
         return templates_2.TemplateResponse(
             request=request,
             name="home.html",
@@ -67,11 +70,12 @@ def account_creation(user: Annotated[User, Form()], request: Request):
         )
     
     except Exception as e:
-            return {"error": f"{e}"}
-    
+            raise
+
     finally:
         cursor.close()
-        db.close()
+        db.commit()
+        db.close()        
 
 # Shows the login page
 @app.get("/login", response_class=HTMLResponse)
@@ -83,7 +87,7 @@ def account_login(request: Request):
 
 # For gathering information from the user
 @app.post("/login", response_class=HTMLResponse)
-def account_login(request: Request, email: Annotated[str, Form()], password: Annotated[str, Form()]):
+def account_login(request: Request, email: str = Form(), password: str = Form()):
     try:
         db = connect_to_db()
         cursor = db.cursor(dictionary=True)
