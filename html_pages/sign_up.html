@@ -1,36 +1,50 @@
 <!DOCTYPE html>
-<html>
+<html lang="en-US">
     <head>
+        <meta charset="UTF-8">
         <title>Vestige - Sign In</title>
+        <link rel="stylesheet" href="/css_design/signup.css">
     </head>
-    <body>
-        <p>Sign In to access our services, share art, and enjoy</p>
-        <form method="POST" action="http://127.0.0.1:8000/signup">
-            <label for="first_name">First Name</label>
-            <input id="first_name" name="first_name" type="text" placeholder="e.g. Hopkins" required>
+    <header>
+        <img class="logo_adjust" src="/html_pages/pictures/vestige_logo.png">
+    </header>
+    <body class="main_body">
+        <form class="form_design" method="POST" action="http://127.0.0.1:8080/signup">
+            <h1 class="text_2">Sign Up</h1>
+            <p class="text_3">Sign In to access our services, share art, and enjoy</p>
+            <div>
+                <label class="text_form" for="first_name">First Name</label>
+                <input class="text_input" id="first_name" name="first_name" type="text" required>
+                <label class="text_form" for="last_name">Last Name</label>
+                <input class="text_input" id="last_name" name="last_name" type="text" required>
+            </div>
+                <br><br>
+
+
+            <label class="text_form" for="email">Email</label>
+            <br><br>
+            <input class="text_input" id="email" name="email" type="email" required>
             <br><br>
 
-            <label for="last_name">Last Name</label>
-            <input id="last_name" name="last_name" type="text" placeholder="Waldens" required>
+            <label class="text_form" for="password">Password</label>
+            <br><br>
+            <input class="text_input" id="password" name="password" type="password" required>
             <br><br>
 
-            <label for="email">Email</label>
-            <input id="email" name="email" type="email" required>
+            <label class="text_form" for="age">Age</label>
+            <br><br>
+            <input class="text_input" id="age" name="age" type="number" required>
             <br><br>
 
-            <label for="password">Password</label>
-            <input id="password" name="password" type="password" required>
+            <label class="text_form" for="country">Country</label>
             <br><br>
-
-            <label for="age">Age</label>
-            <input id="age" name="age" type="number" required>
-            <br><br>
-
-            <label for="country">Country</label>
-            <input id="country" name="country" type="text" required>
+            <input class="text_input" id="country" name="country" type="text" required>
             <br><br>
             
-            <button type="submit">Create account</button>
+            <div class="button_position">
+                <button class="button_submit" type="submit">Create account</button>
+                <h2>{{error}}</h2>
+            </div>
         </form>    
     </body>
 </html>
