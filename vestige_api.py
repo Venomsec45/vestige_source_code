@@ -41,6 +41,22 @@ def home(request: Request):
         name="homepage.html"
     )
 
+#About
+@app.get("/about")
+def about(request: Request):
+    return templates.TemplateResponse(
+        request=request,
+        name="about.html"
+    )
+
+#Contact
+@app.get("/contact")
+def contact(request: Request):
+    return templates.TemplateResponse(
+        request=request,
+        name="contact.html"
+    )
+
 # Users will create their accounts in this endpoint
 @app.get("/signup")
 def account_signup(request: Request):
