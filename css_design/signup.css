@@ -1,15 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
 
-.logo_adjust {
+.logo_adjust_position {
     height: 8vh;
-    padding: 0px 0px 0px 25px;
-    padding-bottom: 40px;
+    padding: 0px 0px 0px -50px;
 }
 
 .main_body {
     margin-top: 20px;
     justify-content: center;
-    align-items: center;
     display: flex;
     height: 90vh;
     font-family: "DM Sans", sans-serif;
@@ -18,6 +16,11 @@
 .text_form {
     font-size: 15px;
     font-weight: bold;
+}
+
+.sub_form_1 {
+    justify-content: space-between;
+    font-family: "DM Sans", sans-serif;
 }
 
 .text {
@@ -38,20 +41,39 @@
     padding: 20px;
 }
 
+.sub_text_1 {
+    padding: 0px 108px 0px 0px;
+    font-family: "DM Sans", sans-serif;
+    font-weight: bold;
+}
+
+.sub_text_2 {
+    padding: 0px 146px 0px 0px;
+    font-family: "DM Sans", sans-serif;
+    font-weight: bold;
+}
+
+.sub_text_3 {
+    padding: 0px 160px 0px 0px;
+    font-family: "DM Sans", sans-serif;
+    font-weight: bold;
+}
+
 .form-design {
     background-color: #f8f8f8;
+    align-items: center;
     text-align: center;
-    width: 280px;
+    width: 300px;
     padding: 26px;
     border-radius: 40px;
-    border: 2px solid #1A1A1A;
+    border: 4px solid #1A1A1A;
 }
 
 .text_input {
     color: #1A1A1A;
     border: 2px solid grey;
     border-radius: 20px;
-    min-width: 35vh;
+    min-width: 15vh;
     min-height: 3vh;
 }
 
