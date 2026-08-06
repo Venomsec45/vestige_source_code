@@ -1,11 +1,97 @@
-.main_message {
-    color: red;
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
+
+.header_design {
+    font-family: "DM Sans", sans-serif;
+    justify-content: center;
+    align-items: center;
+    display: flex;
 }
 
-.link:active {
+.logo_adjust {
+    height: 8vh;
+    padding: 0px 0px 0px 25px;
+}
+
+.navigation {
+    display: flex;
+    gap: 130px;
+}
+
+.navigation a {
+    color: rgb(200, 147, 15);
+    font-size: 30px;
+}
+
+.apply_text {
+    font-family: "DM Sans", sans-serif;
+}
+
+.h_size_adjust {
+    font-size: 50px;
+}
+
+.message_1 {
+    color: #1A1A1A;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.sub_message_2 {
+    font-size: 40px;
+}
+
+.break_line {
+    max-width: 700px;
+}
+
+.picture_1 {
+    width: 500px;
+    height: 500px;
+}
+
+.message_2 {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     color: #1A1A1A;
 }
 
-.link:visited {
-    color: goldenrod;
+.picture_2 {
+    width: 500px;
+    height: 500px;
+}
+
+.break_line_2 {
+    max-width: 700px;
+}
+
+.sub_message_3 {
+    font-size: 40px;
+}
+
+.sub_message_4 {
+    font-size: 82px;
+    text-decoration: underline;
+}
+
+.features_text_design {
+    font-size: 70px;
+}
+
+.feature {
+    font-size: 39;
+}
+
+.footer_layout {
+    display: flex;
+    color: #f8f8f8;
+    background-color: #1A1A1A;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo_in_footer {
+    width: 20px;
+    height: 20px;
 }
