@@ -33,6 +33,12 @@ class User(BaseModel):
     age: Annotated[int, Field(ge=18, le=90)]
     country: str
 
+class Contact(BaseModel):
+    first_name: Annotated[str, Field(min_length=7, max_length=10)]
+    last_name: Annotated[str, Field(min_length=7, max_length=10)]
+    email: Annotated[str, Field(max_length=20)]
+    contact_number: Annotated[int, Field(gt=9)]
+
 # Homepage
 @app.get("/home", response_class=HTMLResponse)
 def home(request: Request):
@@ -56,6 +62,35 @@ def contact(request: Request):
         request=request,
         name="contact.html"
     )
+
+
+
+@app.post("/contact", response_class=HTMLResponse)
+def contact(contact_data: Annotated[Contact, Form()], request: Request):
+    try:
+        db = connect_to_db()
+        cursor = db.cursor()
+        query = "INSERT INTO contacts (first_name, last_name, email, contact_number) VALUES (%s, %s, %s, %s)"
+        data = (
+            contact_data.first_name, 
+            contact_data.last_name, 
+            contact_data.email, 
+            contact_data.contact_number
+            )
+        cursor.execute(query, data)
+        return templates.TemplateResponse(
+            request=request,
+            name="contact.html",
+            context={"sent_message": "Information sent successfully"}
+        )
+    
+    except Exception as e:
+        raise
+
+    finally:
+        cursor.close()
+        db.commit()
+        db.close()
 
 # Users will create their accounts in this endpoint
 @app.get("/signup")
