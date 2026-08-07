@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta charset="UTF-8">
+        <title>Vestige - Contact</title>
+        <link rel="stylesheet" href="css_design/contact.css">
+    </head>
+    <header class="header_design">
+        <div class="logo_layout">    
+            <img class="logo_size" src="html_pages/pictures/vestige_logo.png">
+        </div>
+        <nav class="navigation">
+            <a href="http://127.0.0.1:8000/home"><p>Home</p></a>
+            <a href="http://127.0.0.1:8000/about"><p>About</p></a>
+            <a href="http://127.0.0.1:8000/contact"><p>Contact</p></a>
+            <a href="http://127.0.0.1:8000/login"><p>Log In</p></a>
+            <a href="http://127.0.0.1:8000/signup"><p>Sign In</p></a>
+        </nav>
+    </header>
+    <body class="main_body">
+        <form class="contact_form" method="POST" action="http://127.0.0.1:8000/contact">
+            <div>
+                <label class="form_text" for="first_name">First Name</label>
+                <label class="form_text" for="last_name">Last Name</label>
+
+                <input id="first_name" name="first_name" type="text" required>
+                <input id="last_name" name="last_name" type="text" required>
+            </div>
+            <br><br>
+
+            <label class="form_text" for="email">Email</label>
+            <input id="email" name="email" type="text" required>
+            <br><br>
+
+            <label class="form_text" for="contact_number">Contact number</label>
+            <input id="contact_number" name="contact_number" type="text" required>
+            <br><br>
+
+            <button class="button_design" type="submit">Submit</button>
+            <h3>{{ sent_message }}</h3>
+        </form>
+    </body>
+<body>
+</body>
+</html>
