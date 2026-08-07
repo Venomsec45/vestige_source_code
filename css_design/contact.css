@@ -1,0 +1,67 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
+
+.header_design {
+    font-family: "DM Sans", sans-serif;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+
+.logo_layout {
+    padding: 0px 108px 0px 5px;
+}
+
+.logo_size {
+    height: 8vh;
+}
+
+.navigation {
+    display: flex;
+    gap: 160px;
+    padding: 0px 25px 0px 0px;
+}
+
+.navigation a {
+    color: rgb(200, 147, 15);
+    font-size: 20px;
+}
+
+.navigation p {
+    text-decoration: none;
+}
+
+.main_body {
+    font-family: "DM Sans", sans-serif;
+    align-items: center;
+}
+
+.contact_form {
+    background-color: #f8f8f8;
+    text-align: center;
+    align-items: center;
+    width: 300px;
+    padding: 20px;
+    border-radius: 50px;
+    border: 2px solid #1A1A1A;
+}
+
+.form_text {
+    font-weight: bold;
+}
+
+.button_design {
+    color:#1A1A1A;
+    background-color: #f8f8f8;
+    min-width: 15vh;
+    min-height: 5vh;
+    font-weight: bold;
+    text-align: center;
+    transition: background-color 1s;
+    border: 1px solid #1A1A1A;
+    border-radius: 20px;
+}
+
+.button_design:hover {
+    background-color: #1A1A1A;
+    color: rgb(232, 172, 20);
+}
