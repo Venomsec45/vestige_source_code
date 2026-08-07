@@ -7,27 +7,63 @@
     display: flex;
 }
 
-.logo_adjust {
+.logo_layout {
+    padding: 0px 108px 0px 5px;
+}
+
+.logo_size {
     height: 8vh;
-    padding: 0px 0px 0px 25px;
 }
 
 .navigation {
     display: flex;
-    gap: 130px;
+    gap: 160px;
+    padding: 0px 25px 0px 0px;
 }
 
 .navigation a {
     color: rgb(200, 147, 15);
-    font-size: 30px;
+    font-size: 20px;
 }
 
-.apply_text {
+.navigation p {
+    text-decoration: none;
+}
+
+.main_body {
     font-family: "DM Sans", sans-serif;
 }
 
+.background_1 {
+    background: url("/Users/kalepatestlaptop/my_h_tools/Projects/backend/vestige_gallery/html_pages/pictures/black_background.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    color: #f8f8f8;
+    background-position: center;
+    text-align: center;
+    justify-content: center;
+    background-color: #1A1A1A;
+    background-attachment: scroll;
+}
+
+.background_setting_1 {
+    margin: 0px 80px 0px 80px;
+    padding: 120px 0px 100px 0px;
+}
+
+.border_1 {
+    border-radius: 50px;
+    height: 68vh;
+    border: 2px solid #f8f8f8;
+}
+
+
 .h_size_adjust {
-    font-size: 50px;
+    font-size: 80px;
+}
+
+.size_adjust_2 {
+    font-size: 60px;
 }
 
 .message_1 {
@@ -75,18 +111,20 @@
     text-decoration: underline;
 }
 
-.features_text_design {
+.features_text_design h3 {
     font-size: 70px;
 }
 
-.feature {
-    font-size: 39;
+.features_text_design ul li {
+    font-size: 35px;
 }
 
 .footer_layout {
     display: flex;
     color: #f8f8f8;
     background-color: #1A1A1A;
+    background-size: cover;
+    background-attachment: scroll;
     align-items: center;
     justify-content: space-between;
 }
