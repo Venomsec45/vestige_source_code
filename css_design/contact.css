@@ -32,17 +32,21 @@
 
 .main_body {
     font-family: "DM Sans", sans-serif;
-    align-items: center;
 }
 
 .contact_form {
-    background-color: #f8f8f8;
-    text-align: center;
     align-items: center;
+    justify-content: center;
+    margin-top: 70px;
+    background-color: #f8f8f8;
     width: 300px;
-    padding: 20px;
-    border-radius: 50px;
+    padding: 30px;
+    border-radius: 20px;
     border: 2px solid #1A1A1A;
+}
+
+.form_position {
+    align-items: center;
 }
 
 .form_text {
