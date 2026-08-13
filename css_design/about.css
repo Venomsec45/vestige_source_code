@@ -34,6 +34,10 @@
     font-family: "DM Sans", sans-serif;
 }
 
+.adjust_body {
+    padding: 50px;
+}
+
 .text_size {
     font-size: 70px;
 }
