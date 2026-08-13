@@ -18,27 +18,29 @@
         </nav>
     </header>
     <body class="main_body">
-        <form class="contact_form" method="POST" action="http://127.0.0.1:8000/contact">
-            <div>
-                <label class="form_text" for="first_name">First Name</label>
-                <label class="form_text" for="last_name">Last Name</label>
+        <div class="form_position">
+            <form class="contact_form" method="POST" action="http://127.0.0.1:8000/contact">
+                <div>
+                    <label class="form_text" for="first_name">First Name</label>
+                    <label class="form_text" for="last_name">Last Name</label>
 
-                <input id="first_name" name="first_name" type="text" required>
-                <input id="last_name" name="last_name" type="text" required>
-            </div>
-            <br><br>
+                    <input id="first_name" name="first_name" type="text" required>
+                    <input id="last_name" name="last_name" type="text" required>
+                </div>
+                <br><br>
 
-            <label class="form_text" for="email">Email</label>
-            <input id="email" name="email" type="text" required>
-            <br><br>
+                <label class="form_text" for="email">Email</label>
+                <input id="email" name="email" type="text" required>
+                <br><br>
 
-            <label class="form_text" for="contact_number">Contact number</label>
-            <input id="contact_number" name="contact_number" type="text" required>
-            <br><br>
+                <label class="form_text" for="contact_number">Contact number</label>
+                <input id="contact_number" name="contact_number" type="text" required>
+                <br><br>
 
-            <button class="button_design" type="submit">Submit</button>
-            <h3>{{ sent_message }}</h3>
-        </form>
+                <button class="button_design" type="submit">Submit</button>
+                <h3>{{ sent_message }}</h3>
+            </form>
+        </div>
     </body>
 <body>
 </body>
