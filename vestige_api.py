@@ -26,18 +26,18 @@ app.mount("/html_pages/pictures", StaticFiles(directory="html_pages/pictures"), 
 
 # The structure of the data for the signup page
 class User(BaseModel):
-    first_name: Annotated[str, Field(min_length=5, max_length=8)]
-    last_name: Annotated[str, Field(min_length=5, max_length=8)]
+    first_name: Annotated[str, Field(min_length=3, max_length=8)]
+    last_name: Annotated[str, Field(min_length=3, max_length=8)]
     email: str
     password: str
     age: Annotated[int, Field(ge=18, le=90)]
     country: str
 
 class Contact(BaseModel):
-    first_name: Annotated[str, Field(min_length=7, max_length=10)]
-    last_name: Annotated[str, Field(min_length=7, max_length=10)]
-    email: Annotated[str, Field(max_length=20)]
-    contact_number: Annotated[int, Field(gt=9)]
+    first_name: Annotated[str, Field(min_length=3)]
+    last_name: Annotated[str, Field(min_length=3)]
+    email: Annotated[str, Field(min_length=10)]
+    contact_number: Annotated[int, Field(ge=1000000000)]
 
 # Homepage
 @app.get("/home", response_class=HTMLResponse)
@@ -62,8 +62,6 @@ def contact(request: Request):
         request=request,
         name="contact.html"
     )
-
-
 
 @app.post("/contact", response_class=HTMLResponse)
 def contact(contact_data: Annotated[Contact, Form()], request: Request):
