@@ -3,7 +3,10 @@
 .header_design {
     font-family: "DM Sans", sans-serif;
     justify-content: center;
+    background-color: rgb(255, 255, 255);
     align-items: center;
+    width: 100%;
+    background-size: cover;
     display: flex;
 }
 
@@ -13,59 +16,154 @@
 
 .logo_size {
     height: 8vh;
+    padding: 5px 0px 0px 0px;
 }
 
 .navigation {
     display: flex;
-    gap: 160px;
-    padding: 0px 25px 0px 0px;
+    gap: 170px;
+    padding: 0px 135px 0px 0px;
 }
 
 .navigation a {
     color: rgb(200, 147, 15);
     font-size: 20px;
-}
-
-.navigation p {
     text-decoration: none;
 }
 
+.login_button {
+    border-radius: 20px;
+    text-align: center;
+    width: 10vh;
+    border: 2px solid #1A1A1A;
+    color: #1A1A1A;
+}
+
+.signup_button {
+    border-radius: 20px;
+    text-align: center;
+    width: 10vh;
+    border: 2px solid #1A1A1A;
+    color: #1A1A1A;
+}
+
 .main_body {
+    display: flex;
+    justify-content: space-between;
+    margin: 45px 138px 120px 138px;
+}
+
+.description {
     font-family: "DM Sans", sans-serif;
 }
 
-.contact_form {
-    align-items: center;
+.sub_header {
+    font-size: 70px;
+}
+
+.sub_description {
+    width: 518px;
+    font-size: 28px;
+}
+
+body {
+    margin: 0px;
+}
+
+main {
+    font-family: "DM Sans", sans-serif;
+    min-height: 75vh;
     justify-content: center;
-    margin-top: 70px;
-    background-color: #f8f8f8;
-    width: 300px;
-    padding: 30px;
-    border-radius: 20px;
-    border: 2px solid #1A1A1A;
+    align-items: center;
+    display: flex;
+    margin: 0px;
 }
 
-.form_position {
+.form_layout {
+    justify-content: center;
+    border-radius: 10px;
+    border: 2px solid #1A1A1A;
+    padding: 50px 50px 50px 50px;
     align-items: center;
 }
 
-.form_text {
-    font-weight: bold;
+.text_space {
+    padding: 0px 130px 0px 0px;
 }
 
-.button_design {
-    color:#1A1A1A;
-    background-color: #f8f8f8;
+.input_design {
+    border: 2px solid grey;
+    border-radius: 10px;
+    min-width: 21vh;
+    min-height: 5vh;
+}
+
+.separate_input_design {
+    border: 2px solid grey;
+    border-radius: 10px;
+    min-width: 47vh;
+    min-height: 5vh;
+}
+
+.button_layout {
+    justify-content: center;
+    align-items: center;
+}
+
+.button_submit {
+    color: #1A1A1A;
+    background-color: white;
     min-width: 15vh;
     min-height: 5vh;
-    font-weight: bold;
-    text-align: center;
-    transition: background-color 1s;
-    border: 1px solid #1A1A1A;
-    border-radius: 20px;
+    border-radius: 10px;
+    transition: background-color 0.5s;
+    border: 2px solid #1A1A1A;
+    font-size: 16px;
 }
 
-.button_design:hover {
+.button_submit:hover {
+    color: rgb(235, 172, 10);
     background-color: #1A1A1A;
-    color: rgb(232, 172, 20);
+    min-width: 15vh;
+    min-height: 5vh;
+    border-radius: 10px;
+    border: 2px solid rgb(235, 172, 10);
+    font-size: 16px;
 }
+
+.footer_layout {
+    font-family: "DM Sans", sans-serif;
+    display: flex;
+    color: #f8f8f8;
+    background-color: #1A1A1A;
+    background-size: cover;
+    background-attachment: scroll;
+    padding: 0vh 20vh 0vh 20vh;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo_in_footer {
+    height: 8vh;
+    padding: 8px 0px 0px 0px;
+}
+
+.footer_sub_message {
+    font-size: 16px;
+}
+
+.fb_logo_adjust {
+    height: 40px;
+    width: 43px;
+}
+
+.x_logo_adjust {
+    height: 40px;
+    width: 43px;
+}
+
+.logos_separate {
+    gap: 10px;
+}
+
+
