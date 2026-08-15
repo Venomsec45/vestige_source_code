@@ -3,8 +3,13 @@
 .header_design {
     font-family: "DM Sans", sans-serif;
     justify-content: center;
+    background-color: rgb(255, 255, 255);
     align-items: center;
+    background-attachment: fixed;
+    width: 100%;
+    background-size: cover;
     display: flex;
+    position: fixed;
 }
 
 .logo_layout {
@@ -13,29 +18,44 @@
 
 .logo_size {
     height: 8vh;
+    padding: 5px 0px 0px 0px;
 }
 
 .navigation {
     display: flex;
-    gap: 160px;
-    padding: 0px 43px 0px 0px;
+    gap: 170px;
+    padding: 0px 135px 0px 0px;
 }
 
 .navigation a {
     color: rgb(200, 147, 15);
     font-size: 20px;
+    text-decoration: none;
 }
 
-.navigation p {
-    text-decoration: none;
+.login_button {
+    border-radius: 20px;
+    text-align: center;
+    width: 10vh;
+    border: 2px solid #1A1A1A;
+    color: #1A1A1A;
+}
+
+.signup_button {
+    border-radius: 20px;
+    text-align: center;
+    width: 10vh;
+    border: 2px solid #1A1A1A;
+    color: #1A1A1A;
 }
 
 .main_body {
     font-family: "DM Sans", sans-serif;
+    margin: 0px;
 }
 
 .adjust_body {
-    padding: 50px;
+    padding: 118px;
 }
 
 .text_size {
@@ -45,4 +65,39 @@
 .break_line {
     max-width: 600px;
     font-size: 25px;
+}
+
+.footer_layout {
+    display: flex;
+    color: #f8f8f8;
+    background-color: #1A1A1A;
+    background-size: cover;
+    background-attachment: scroll;
+    padding: 0vh 20vh 0vh 20vh;
+    margin: 30px 0px 0px 0px;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo_in_footer {
+    height: 8vh;
+    padding: 8px 0px 0px 0px;
+}
+
+.footer_sub_message {
+    font-size: 16px;
+}
+
+.fb_logo_adjust {
+    height: 40px;
+    width: 43px;
+}
+
+.x_logo_adjust {
+    height: 40px;
+    width: 43px;
+}
+
+.logos_separate {
+    gap: 10px;
 }
