@@ -1,47 +1,68 @@
 <!DOCTYPE html>
 <html lang="en-US">
-    <head>
-        <meta charset="UTF-8">
-        <title>Vestige - Contact</title>
-        <link rel="stylesheet" href="css_design/contact.css">
-    </head>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width initial-scale:1.0">
+    <title>Vestige - Contact</title>
+    <link rel="stylesheet" href="css_design/contact.css">
+</head>
+<body>
     <header class="header_design">
-        <div class="logo_layout">    
+        <div class="logo_layout">
             <img class="logo_size" src="html_pages/pictures/vestige_logo.png">
         </div>
         <nav class="navigation">
             <a href="http://127.0.0.1:8000/home"><p>Home</p></a>
             <a href="http://127.0.0.1:8000/about"><p>About</p></a>
             <a href="http://127.0.0.1:8000/contact"><p>Contact</p></a>
-            <a href="http://127.0.0.1:8000/login"><p>Log In</p></a>
-            <a href="http://127.0.0.1:8000/signup"><p>Sign In</p></a>
+            <a href="http://127.0.0.1:8000/login"><p class="login_button">Log In</p></a>
+            <a href="http://127.0.0.1:8000/signup"><p class="signup_button">Sign In</p></a>
         </nav>
     </header>
-    <body class="main_body">
-        <div class="form_position">
-            <form class="contact_form" method="POST" action="http://127.0.0.1:8000/contact">
-                <div>
-                    <label class="form_text" for="first_name">First Name</label>
-                    <label class="form_text" for="last_name">Last Name</label>
-
-                    <input id="first_name" name="first_name" type="text" required>
-                    <input id="last_name" name="last_name" type="text" required>
-                </div>
-                <br><br>
-
-                <label class="form_text" for="email">Email</label>
-                <input id="email" name="email" type="text" required>
-                <br><br>
-
-                <label class="form_text" for="contact_number">Contact number</label>
-                <input id="contact_number" name="contact_number" type="text" required>
-                <br><br>
-
-                <button class="button_design" type="submit">Submit</button>
-                <h3>{{ sent_message }}</h3>
-            </form>
+    <div class="main_body">
+        <div class="description">
+            <h1 class="sub_header">Contact Us</h1>
+            <div class="sub_description">
+                <p>You may contact us by filling the following form below with your information and we can respond to you by calling your contact number. We respect your personal information and keep it confidential. We ensure that the information that you send will not be disclosed to third parties.</p>
+            </div>
         </div>
-    </body>
-<body>
+        <main>
+            <form class="form_layout" method="POST" action="http://127.0.0.1:8000/contact">
+                <label class="text_space" for="first_name">First name</label>
+                <label for="last_name">Last name</label>
+                <br><br>
+
+                <input class="input_design" id="first_name" name="first_name" type="text" required>
+                <input class="input_design" id="last_name" name="last_name" type="text" required>
+                <br><br>
+
+                <label for="email">Email</label>
+                <br><br>
+                <input class="separate_input_design" id="email" name="email" type="text" required>
+                <br><br>
+
+                <label for="contact_number">Contact number</label>
+                <br><br>
+                <input class="separate_input_design" id="contact_number" name="contact_number" type="number" required>
+                <br><br>
+
+                <div class="button_layout">
+                    <button class="button_submit" type="submit">Submit</button>
+                    <h2>{{sent_message}}</h2>
+                </div>
+            </form>
+        </main>
+    </div>
+    <footer class="footer_layout">
+        <div>
+            <img class="logo_in_footer" src="html_pages/pictures/footer_vestige_logo.png">
+            <p class="footer_sub_message">Share, collaborate and create art with artists</p>
+            <p class="sub_message_5">All rights reserved. 2026.</p>
+        </div>
+        <div class="logos_separate">
+            <a href="https://x.com/"><img class="x_logo_adjust" src="html_pages/pictures/x_logo.png" alt="X"></a>
+            <a href="https://facebook.com/"><img class="fb_logo_adjust" src="html_pages/pictures/fb_logo.png" alt="Facebook"></a>
+        </div>
+    </footer>
 </body>
 </html>
