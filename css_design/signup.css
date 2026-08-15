@@ -1,8 +1,19 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
 
-.logo_adjust_position {
+.logo_position {
+    padding: 0px 0px 0px 25px;
+    margin: 0px 0px 5px -78px;
+}
+
+.logo_adjust {
     height: 8vh;
-    padding: 0px 0px 0px -50px;
+}
+
+main {
+    min-height: 500px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
 }
 
 .main_body {
