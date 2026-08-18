@@ -1,16 +1,19 @@
 from pydantic import BaseModel, Field
 from fastapi import FastAPI, Form, Request
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, Response
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 from datetime import datetime
 from typing import Annotated
 from database.db_connection import connect_to_db
 import mysql.connector
+from prometheus_client import Counter, generate_latest
 
-# Reminder
-# This is just a reference code on how the gallery website will work
-# The following is an API
+# Used for storing mertics or user data
+requests_data = Counter(
+    "fastapi_requests_total",
+    "Total number of requests"
+)
 
 # Stores the html pages
 templates = Jinja2Templates(directory="html_pages")
@@ -39,9 +42,20 @@ class Contact(BaseModel):
     email: Annotated[str, Field(min_length=10)]
     contact_number: Annotated[int, Field(ge=1000000000)]
 
+# Collects user metrics then stores them then sneds to the grafana client
+# Optional to install grafana client but recommended
+@app.get("/metrics")
+def metrics():
+    # Returns a default web response
+    return Response(
+        generate_latest(), # Shows the latest user metrics
+        media_type="text/plain" # To be sent as a text type
+    )
+
 # Homepage
 @app.get("/home", response_class=HTMLResponse)
 def home(request: Request):
+    requests_data.inc()
     return templates.TemplateResponse(
         request=request,
         name="homepage.html"
@@ -50,6 +64,7 @@ def home(request: Request):
 #About
 @app.get("/about")
 def about(request: Request):
+    requests_data.inc()
     return templates.TemplateResponse(
         request=request,
         name="about.html"
@@ -58,6 +73,7 @@ def about(request: Request):
 #Contact
 @app.get("/contact")
 def contact(request: Request):
+    requests_data.inc()
     return templates.TemplateResponse(
         request=request,
         name="contact.html"
@@ -65,6 +81,7 @@ def contact(request: Request):
 
 @app.post("/contact", response_class=HTMLResponse)
 def contact(contact_data: Annotated[Contact, Form()], request: Request):
+    requests_data.inc()
     try:
         db = connect_to_db()
         cursor = db.cursor()
@@ -93,6 +110,7 @@ def contact(contact_data: Annotated[Contact, Form()], request: Request):
 # Users will create their accounts in this endpoint
 @app.get("/signup")
 def account_signup(request: Request):
+    requests_data.inc()
     return templates.TemplateResponse(
         request=request,
         name="sign_up.html"
@@ -100,6 +118,7 @@ def account_signup(request: Request):
 
 @app.post("/signup", response_class=HTMLResponse)
 def account_creation(user: Annotated[User, Form()], request: Request):
+    requests_data.inc()
     try:
         db = connect_to_db()
         cursor = db.cursor()
@@ -130,6 +149,7 @@ def account_creation(user: Annotated[User, Form()], request: Request):
 # Shows the login page
 @app.get("/login", response_class=HTMLResponse)
 def account_login(request: Request):
+    requests_data.inc()
     return templates.TemplateResponse(
         request=request,
         name="log_in.html"
@@ -138,6 +158,7 @@ def account_login(request: Request):
 # For gathering information from the user
 @app.post("/login", response_class=HTMLResponse)
 def account_login(request: Request, email: str = Form(), password: str = Form()):
+    requests_data.inc()
     try:
         db = connect_to_db()
         cursor = db.cursor(dictionary=True)
