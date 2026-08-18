@@ -5,42 +5,44 @@
     <title>Vestige - Sign In</title>
     <link rel="stylesheet" href="/css_design/signup.css">
 </head>
-    <header class="logo_position">
-        <img class="logo_adjust" src="/html_pages/pictures/vestige_logo.png">
-    </header>
+<header class="logo_position">
+    <img class="logo_adjust" src="/html_pages/pictures/vestige_logo.png">
+</header>
     <body class="main_body">
         <main>
-            <form class="form_design" method="POST" action="http://127.0.0.1:8080/signup">
-                <h1 class="text_2">Sign Up</h1>
-                <p class="text_3">Sign In to access our services, share art, and enjoy</p>
+            <form class="form_border" method="POST" action="http://127.0.0.1:8080/signup">
+                <div class="form_design">
+                    <h1 class="text_2">Sign Up</h1>
+                    <p class="text_3">Sign In to access our services, share art, and enjoy</p>
 
-                <div class="sub_form_1">
-                    <label class="sub_text_1" for="first_name">First Name</label>
-                    <label class="text_form" for="last_name">Last Name</label>
+                    <div class="sub_form_1">
+                        <label class="sub_text_1" for="first_name">First Name</label>
+                        <label class="text_form" for="last_name">Last Name</label>
+                        <br><br>
+                        <input class="text_input" id="first_name" name="first_name" type="text" required>
+                        <input class="text_input" id="last_name" name="last_name" type="text" required>
+                    </div>
                     <br><br>
-                    <input class="text_input" id="first_name" name="first_name" type="text" required>
-                    <input class="text_input" id="last_name" name="last_name" type="text" required>
-                </div>
-                <br><br>
 
-                <div class="sub_form_1">
-                    <label class="sub_text_2" for="email">Email</label>
-                    <label class="text_form" for="password">Password</label>
+                    <div class="sub_form_1">
+                        <label class="sub_text_2" for="email">Email</label>
+                        <label class="text_form" for="password">Password</label>
+                        <br><br>
+                        <input class="text_input" id="email" name="email" type="email" required>
+                        <input class="text_input" id="password" name="password" type="password" required>
+                    </div>
                     <br><br>
-                    <input class="text_input" id="email" name="email" type="email" required>
-                    <input class="text_input" id="password" name="password" type="password" required>
-                </div>
-                <br><br>
 
-                <div class="sub_form_1">
-                    <label class="sub_text_3" for="age">Age</label>
-                    <label class="text_form" for="country">Country</label>
+                    <div class="sub_form_1">
+                        <label class="sub_text_3" for="age">Age</label>
+                        <label class="text_form" for="country">Country</label>
+                        <br><br>
+                        <input class="text_input" id="age" name="age" type="number" required>
+                        <input class="text_input" id="country" name="country" type="text" required>
+                    </div>
                     <br><br>
-                    <input class="text_input" id="age" name="age" type="number" required>
-                    <input class="text_input" id="country" name="country" type="text" required>
                 </div>
-                <br><br>
-                
+
                 <div class="button_position">
                     <button class="button_submit" type="submit">Create account</button>
                     <h2>{{error}}</h2>
