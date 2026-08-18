@@ -1,25 +1,22 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
 
 .logo_position {
-    padding: 0px 0px 0px 25px;
-    margin: 0px 0px 5px -78px;
+    padding: 0px 0px 49px 0px;
 }
 
 .logo_adjust {
+    margin: 0px 0px 0px 86px;
     height: 8vh;
 }
 
 main {
-    min-height: 500px;
+    min-height: calc(80vh, 100px);
     justify-content: center;
     align-items: center;
     display: flex;
 }
 
 .main_body {
-    margin-top: 20px;
-    justify-content: center;
-    display: flex;
     height: 90vh;
     font-family: "DM Sans", sans-serif;
 }
@@ -53,21 +50,27 @@ main {
 }
 
 .sub_text_1 {
-    padding: 0px 108px 0px 0px;
+    padding: 0px 115px 0px 0px;
     font-family: "DM Sans", sans-serif;
     font-weight: bold;
 }
 
 .sub_text_2 {
-    padding: 0px 146px 0px 0px;
+    padding: 0px 156px 0px 0px;
     font-family: "DM Sans", sans-serif;
     font-weight: bold;
 }
 
 .sub_text_3 {
-    padding: 0px 160px 0px 0px;
+    padding: 0px 168px 0px 0px;
     font-family: "DM Sans", sans-serif;
     font-weight: bold;
+}
+
+.form_border {
+    border-radius: 20px;
+    border: 2px solid #1A1A1A;
+    padding: 0px 30px 30px 30px;
 }
 
 .form-design {
@@ -76,16 +79,14 @@ main {
     text-align: center;
     width: 300px;
     padding: 26px;
-    border-radius: 40px;
-    border: 4px solid #1A1A1A;
 }
 
 .text_input {
     color: #1A1A1A;
     border: 2px solid grey;
     border-radius: 20px;
-    min-width: 15vh;
-    min-height: 3vh;
+    width: 189px;
+    height: 30px;
 }
 
 .text_input:focus {
@@ -93,8 +94,8 @@ main {
 }
 
 .button_submit {
-    min-width: 40vh;
-    min-height: 5vh;
+    width: 190px;
+    height: 50px;
     font-weight: bold;
     background-color: #f1f1f1;
     color: #1A1A1A;
@@ -111,5 +112,7 @@ main {
 }
 
 .button_position {
+    display: flex;
     align-items: center;
+    justify-content: center;
 }
