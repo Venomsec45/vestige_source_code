@@ -8,6 +8,8 @@ from typing import Annotated
 from database.db_connection import connect_to_db
 import mysql.connector
 from prometheus_client import Counter, generate_latest
+import string
+import random
 
 # Used for storing mertics or user data
 requests_data = Counter(
@@ -25,6 +27,7 @@ app = FastAPI()
 # For fetching pictures and css design
 app.mount("/css_design", StaticFiles(directory="css_design"), name="css")
 app.mount("/html_pages/pictures", StaticFiles(directory="html_pages/pictures"), name="picture")
+
 
 
 # The structure of the data for the signup page
@@ -190,7 +193,7 @@ def account_login(request: Request, email: str = Form(), password: str = Form())
         return templates_2.TemplateResponse(
             request=request,
             name="home.html",
-            context={"first_name": user["first_name"]}
+            context={"first_name": user["first_name"], "hash_num": f"{"".join(random.choices(string.ascii_letters + string.digits + string.punctuation, k=15))}"}
         )
 
     except Exception as e:
