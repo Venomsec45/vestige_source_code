@@ -74,7 +74,7 @@ def about(request: Request):
     )
 
 #Contact
-@app.get("/contact")
+@app.get("/contact/v1")
 def contact(request: Request):
     requests_data.inc()
     return templates.TemplateResponse(
@@ -82,7 +82,7 @@ def contact(request: Request):
         name="contact.html"
     )
 
-@app.post("/contact", response_class=HTMLResponse)
+@app.post("/contact/v1", response_class=HTMLResponse)
 def contact(contact_data: Annotated[Contact, Form()], request: Request):
     requests_data.inc()
     try:
@@ -111,7 +111,7 @@ def contact(contact_data: Annotated[Contact, Form()], request: Request):
         db.close()
 
 # Users will create their accounts in this endpoint
-@app.get("/signup")
+@app.get("/signup/v1")
 def account_signup(request: Request):
     requests_data.inc()
     return templates.TemplateResponse(
@@ -119,7 +119,7 @@ def account_signup(request: Request):
         name="sign_up.html"
     )
 
-@app.post("/signup", response_class=HTMLResponse)
+@app.post("/signup/v1", response_class=HTMLResponse)
 def account_creation(user: Annotated[User, Form()], request: Request):
     requests_data.inc()
     try:
@@ -150,7 +150,7 @@ def account_creation(user: Annotated[User, Form()], request: Request):
         db.close()        
 
 # Shows the login page
-@app.get("/login", response_class=HTMLResponse)
+@app.get("/login/v1", response_class=HTMLResponse)
 def account_login(request: Request):
     requests_data.inc()
     return templates.TemplateResponse(
@@ -159,7 +159,7 @@ def account_login(request: Request):
     )
 
 # For gathering information from the user
-@app.post("/login", response_class=HTMLResponse)
+@app.post("/login/v1", response_class=HTMLResponse)
 def account_login(request: Request, email: str = Form(), password: str = Form()):
     requests_data.inc()
     try:
