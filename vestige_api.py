@@ -38,6 +38,7 @@ class User(BaseModel):
     password: str
     age: Annotated[int, Field(ge=18, le=90)]
     country: str
+    reference_id: str
 
 class Contact(BaseModel):
     first_name: Annotated[str, Field(min_length=3)]
@@ -125,20 +126,22 @@ def account_creation(user: Annotated[User, Form()], request: Request):
     try:
         db = connect_to_db()
         cursor = db.cursor()
-        query = "INSERT INTO users (first_name, last_name, email, password, age, country) VALUES (%s, %s, %s, %s, %s, %s)"
+        query = "INSERT INTO users (first_name, last_name, email, password, age, country, reference_id) VALUES (%s, %s, %s, %s, %s, %s, %s)"
+        user.reference_id = f"{"".join(random.choices(string.ascii_letters + string.digits + string.punctuation, k=15))}"
         data = (
             user.first_name,
             user.last_name,
             user.email,
             user.password,
             user.age,
-            user.country
+            user.country,
+            user.reference_id
         )
         cursor.execute(query, data)
         return templates_2.TemplateResponse(
             request=request,
             name="home.html",
-            context={"first_name": user.first_name}
+            context={"first_name": user.first_name, "hash_num": user.reference_id}
         )
     
     except Exception as e:
@@ -193,7 +196,7 @@ def account_login(request: Request, email: str = Form(), password: str = Form())
         return templates_2.TemplateResponse(
             request=request,
             name="home.html",
-            context={"first_name": user["first_name"], "hash_num": f"{"".join(random.choices(string.ascii_letters + string.digits + string.punctuation, k=15))}"}
+            context={"first_name": user["first_name"], "hash_num": user["reference_id"]}
         )
 
     except Exception as e:
