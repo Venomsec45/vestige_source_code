@@ -1,6 +1,6 @@
 from pydantic import BaseModel, Field
 from fastapi import FastAPI, Form, Request
-from fastapi.responses import HTMLResponse, Response
+from fastapi.responses import HTMLResponse, Response, RedirectResponse
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 from datetime import datetime
@@ -10,6 +10,8 @@ import mysql.connector
 from prometheus_client import Counter, generate_latest
 import string
 import random
+import hashlib
+import os
 
 # Used for storing mertics or user data
 requests_data = Counter(
@@ -38,7 +40,7 @@ class User(BaseModel):
     password: str
     age: Annotated[int, Field(ge=18, le=90)]
     country: str
-    reference_id: str
+    reference_id: str | None = None
 
 class Contact(BaseModel):
     first_name: Annotated[str, Field(min_length=3)]
@@ -56,9 +58,39 @@ def metrics():
         media_type="text/plain" # To be sent as a text type
     )
 
+@app.get("/user_home", response_class=HTMLResponse)
+async def user_homepage(request: Request):
+    requests_data.inc()
+    # cookie = request.cookies
+    try:
+        db = connect_to_db()
+        cursor = db.cursor(dictionary=True)
+        query = "SELECT * FROM users where session_id = %s"
+        data = request.cookies.get("session_id")
+        cursor.execute(query, (data,))
+        user = cursor.fetchone()
+        if user:
+            return templates_2.TemplateResponse(
+                request=request,
+                name="home.html",
+                context={"first_name": user["first_name"], "hash_num": user["reference_id"]}
+            )
+
+        return templates_2.TemplateResponse(
+                request=request,
+                name="cookie_error.html",
+            )
+
+    except Exception as e:
+        raise
+
+    finally:
+        cursor.close()
+        db.close()
+
 # Homepage
 @app.get("/home", response_class=HTMLResponse)
-def home(request: Request):
+async def home(request: Request):
     requests_data.inc()
     return templates.TemplateResponse(
         request=request,
@@ -67,7 +99,7 @@ def home(request: Request):
 
 #About
 @app.get("/about")
-def about(request: Request):
+async def about(request: Request):
     requests_data.inc()
     return templates.TemplateResponse(
         request=request,
@@ -76,7 +108,7 @@ def about(request: Request):
 
 #Contact
 @app.get("/contact/v1")
-def contact(request: Request):
+async def contact(request: Request):
     requests_data.inc()
     return templates.TemplateResponse(
         request=request,
@@ -84,7 +116,7 @@ def contact(request: Request):
     )
 
 @app.post("/contact/v1", response_class=HTMLResponse)
-def contact(contact_data: Annotated[Contact, Form()], request: Request):
+async def contact(contact_data: Annotated[Contact, Form()], request: Request):
     requests_data.inc()
     try:
         db = connect_to_db()
@@ -113,7 +145,7 @@ def contact(contact_data: Annotated[Contact, Form()], request: Request):
 
 # Users will create their accounts in this endpoint
 @app.get("/signup/v1")
-def account_signup(request: Request):
+async def account_signup(request: Request):
     requests_data.inc()
     return templates.TemplateResponse(
         request=request,
@@ -121,28 +153,40 @@ def account_signup(request: Request):
     )
 
 @app.post("/signup/v1", response_class=HTMLResponse)
-def account_creation(user: Annotated[User, Form()], request: Request):
+async def account_creation(user: Annotated[User, Form()], request: Request, response: Response):
     requests_data.inc()
+    hashed_value = hashlib.md5(user.first_name.encode("UTF-8")).hexdigest()
     try:
         db = connect_to_db()
         cursor = db.cursor()
-        query = "INSERT INTO users (first_name, last_name, email, password, age, country, reference_id) VALUES (%s, %s, %s, %s, %s, %s, %s)"
+        query = "INSERT INTO users (tenant_id, first_name, last_name, email, password, age, country, reference_id, session_id) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)"
         user.reference_id = f"{"".join(random.choices(string.ascii_letters + string.digits + string.punctuation, k=15))}"
+
         data = (
+            random.choice([1, 2, 3]),
             user.first_name,
             user.last_name,
             user.email,
             user.password,
             user.age,
             user.country,
-            user.reference_id
+            user.reference_id,
+            hashed_value
         )
+
         cursor.execute(query, data)
-        return templates_2.TemplateResponse(
-            request=request,
-            name="home.html",
-            context={"first_name": user.first_name, "hash_num": user.reference_id}
+
+        success_response = RedirectResponse(
+            url="/user_home",
+            status_code=303
         )
+
+        success_response.set_cookie(
+            key="session_id",
+            value=hashed_value
+        )
+
+        return success_response
     
     except Exception as e:
             raise
@@ -150,11 +194,11 @@ def account_creation(user: Annotated[User, Form()], request: Request):
     finally:
         cursor.close()
         db.commit()
-        db.close()        
+        db.close()
 
 # Shows the login page
 @app.get("/login/v1", response_class=HTMLResponse)
-def account_login(request: Request):
+async def account_login(request: Request):
     requests_data.inc()
     return templates.TemplateResponse(
         request=request,
@@ -163,8 +207,9 @@ def account_login(request: Request):
 
 # For gathering information from the user
 @app.post("/login/v1", response_class=HTMLResponse)
-def account_login(request: Request, email: str = Form(), password: str = Form()):
+async def account_login(request: Request, response: Response, email: str = Form(), password: str = Form()):
     requests_data.inc()
+
     try:
         db = connect_to_db()
         cursor = db.cursor(dictionary=True)
@@ -193,15 +238,29 @@ def account_login(request: Request, email: str = Form(), password: str = Form())
                 context={"error": "Incorrect email or password"}
             )
 
-        return templates_2.TemplateResponse(
-            request=request,
-            name="home.html",
-            context={"first_name": user["first_name"], "hash_num": user["reference_id"]}
+        hashed_value = hashlib.md5(user["first_name"].encode("UTF-8")).hexdigest()
+        response.set_cookie(
+            key="session_id",
+            value=hashed_value,
+            samesite="lax"
         )
+
+        # cursor_2 = db.cursor()
+        query_2 = "UPDATE users SET session_id = %s WHERE email = %s and password = %s"
+        data_2 = (hashed_value, user["email"], user["password"])
+        cursor.execute(query_2, data_2)
+
+        success_response = RedirectResponse(
+            url="/user_home",
+            status_code=303
+        )
+
+        return success_response
 
     except Exception as e:
         return {"error": f"{e}"}
 
     finally:
         cursor.close()
+        # cursor_2.close()
         db.close()
