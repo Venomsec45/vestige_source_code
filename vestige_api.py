@@ -6,12 +6,14 @@ from fastapi.staticfiles import StaticFiles
 from datetime import datetime
 from typing import Annotated
 from database.db_connection import connect_to_db
+from security.token_hash import hashed_token_generate
 import mysql.connector
 from prometheus_client import Counter, generate_latest
 import string
 import random
 import hashlib
 import os
+import time
 
 # Used for storing mertics or user data
 requests_data = Counter(
@@ -58,28 +60,41 @@ def metrics():
         media_type="text/plain" # To be sent as a text type
     )
 
+@app.get("/")
+async def redirect_to_home(request: Request):
+    requests_data.inc()
+    data = request.cookies.get("__Host-session")
+    if data:
+        return RedirectResponse(
+            url="/user_home",
+            status_code=303
+        )
+
+    return RedirectResponse(
+        url="/home",
+        status_code=303
+    )
+
 @app.get("/user_home", response_class=HTMLResponse)
 async def user_homepage(request: Request):
     requests_data.inc()
-    # cookie = request.cookies
     try:
         db = connect_to_db()
-        cursor = db.cursor(dictionary=True)
+        cursor = db.cursor(dictionary=True, buffered=True)
         query = "SELECT * FROM users where session_id = %s"
         data = request.cookies.get("session_id")
         cursor.execute(query, (data,))
         user = cursor.fetchone()
         if user:
-            return templates_2.TemplateResponse(
-                request=request,
-                name="home.html",
-                context={"first_name": user["first_name"], "hash_num": user["reference_id"]}
+            return RedirectResponse(
+                url="/user_home",
+                status_code=303
             )
 
-        return templates_2.TemplateResponse(
-                request=request,
-                name="cookie_error.html",
-            )
+        return RedirectResponse(
+            url="/home",
+            status_code=303
+        )
 
     except Exception as e:
         raise
@@ -87,6 +102,7 @@ async def user_homepage(request: Request):
     finally:
         cursor.close()
         db.close()
+        
 
 # Homepage
 @app.get("/home", response_class=HTMLResponse)
@@ -144,7 +160,7 @@ async def contact(contact_data: Annotated[Contact, Form()], request: Request):
         db.close()
 
 # Users will create their accounts in this endpoint
-@app.get("/signup/v1")
+@app.get("/register/v1")
 async def account_signup(request: Request):
     requests_data.inc()
     return templates.TemplateResponse(
@@ -152,10 +168,9 @@ async def account_signup(request: Request):
         name="sign_up.html"
     )
 
-@app.post("/signup/v1", response_class=HTMLResponse)
+@app.post("/register/v1", response_class=HTMLResponse)
 async def account_creation(user: Annotated[User, Form()], request: Request, response: Response):
     requests_data.inc()
-    hashed_value = hashlib.md5(user.first_name.encode("UTF-8")).hexdigest()
     try:
         db = connect_to_db()
         cursor = db.cursor()
@@ -171,7 +186,7 @@ async def account_creation(user: Annotated[User, Form()], request: Request, resp
             user.age,
             user.country,
             user.reference_id,
-            hashed_value
+            hashed_token_generate
         )
 
         cursor.execute(query, data)
@@ -182,8 +197,10 @@ async def account_creation(user: Annotated[User, Form()], request: Request, resp
         )
 
         success_response.set_cookie(
-            key="session_id",
-            value=hashed_value
+            key="__Host-session",
+            value=hashed_token_generate(),
+            path="/",
+            samesite="lax"
         )
 
         return success_response
@@ -194,73 +211,4 @@ async def account_creation(user: Annotated[User, Form()], request: Request, resp
     finally:
         cursor.close()
         db.commit()
-        db.close()
-
-# Shows the login page
-@app.get("/login/v1", response_class=HTMLResponse)
-async def account_login(request: Request):
-    requests_data.inc()
-    return templates.TemplateResponse(
-        request=request,
-        name="log_in.html"
-    )
-
-# For gathering information from the user
-@app.post("/login/v1", response_class=HTMLResponse)
-async def account_login(request: Request, response: Response, email: str = Form(), password: str = Form()):
-    requests_data.inc()
-
-    try:
-        db = connect_to_db()
-        cursor = db.cursor(dictionary=True)
-        query = ("SELECT first_name, last_name, email, password FROM users WHERE email = %s AND password = %s")
-        data = (email, password)
-        cursor.execute(query, data)
-        user = cursor.fetchone()
-        if user is None:
-            return templates.TemplateResponse(
-                request=request,
-                name="log_in.html",
-                context={"error": "Incorrect email or password"}
-            )
-
-        elif password != user["password"]:
-            return templates.TemplateResponse(
-                request=request,
-                name="log_in.html",
-                context={"error": "Incorrect email or password"}
-            )
-
-        elif email == user["email"] and password != user["password"]:
-            return templates.TemplateResponse(
-                request=request,
-                name="log_in.html",
-                context={"error": "Incorrect email or password"}
-            )
-
-        hashed_value = hashlib.md5(user["first_name"].encode("UTF-8")).hexdigest()
-        response.set_cookie(
-            key="session_id",
-            value=hashed_value,
-            samesite="lax"
-        )
-
-        # cursor_2 = db.cursor()
-        query_2 = "UPDATE users SET session_id = %s WHERE email = %s and password = %s"
-        data_2 = (hashed_value, user["email"], user["password"])
-        cursor.execute(query_2, data_2)
-
-        success_response = RedirectResponse(
-            url="/user_home",
-            status_code=303
-        )
-
-        return success_response
-
-    except Exception as e:
-        return {"error": f"{e}"}
-
-    finally:
-        cursor.close()
-        # cursor_2.close()
         db.close()
