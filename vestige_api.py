@@ -3,9 +3,10 @@ from fastapi import FastAPI, Form, Request
 from fastapi.responses import HTMLResponse, Response, RedirectResponse
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
-from datetime import datetime
+from datetime import datetime as dt, timedelta, timezone
 from typing import Annotated
 from database.db_connection import connect_to_db
+from security.hash_token import hashed_token_generate
 import mysql.connector
 from prometheus_client import Counter, generate_latest
 import string
@@ -30,7 +31,8 @@ app = FastAPI()
 app.mount("/css_design", StaticFiles(directory="css_design"), name="css")
 app.mount("/html_pages/pictures", StaticFiles(directory="html_pages/pictures"), name="picture")
 
-
+# Auto generate hashed value of the cookie
+hashed_token = hashed_token_generate()
 
 # The structure of the data for the signup page
 class User(BaseModel):
@@ -48,6 +50,12 @@ class Contact(BaseModel):
     email: Annotated[str, Field(min_length=10)]
     contact_number: Annotated[int, Field(ge=1000000000)]
 
+def expiration_date():
+    today = dt.now(timezone.utc)
+    future_day = today + timedelta(days=1)
+    timestamp = future_day.strftime("%Y-%m-%d %H:%M:%S")
+    return timestamp
+
 # Collects user metrics then stores them then sneds to the grafana client
 # Optional to install grafana client but recommended
 @app.get("/metrics")
@@ -61,25 +69,24 @@ def metrics():
 @app.get("/user_home", response_class=HTMLResponse)
 async def user_homepage(request: Request):
     requests_data.inc()
-    # cookie = request.cookies
     try:
         db = connect_to_db()
-        cursor = db.cursor(dictionary=True)
+        cursor = db.cursor(dictionary=True, buffered=True)
         query = "SELECT * FROM users where session_id = %s"
         data = request.cookies.get("session_id")
         cursor.execute(query, (data,))
         user = cursor.fetchone()
-        if user:
+        if user and user["expires_at"] <= dt.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S"):
             return templates_2.TemplateResponse(
                 request=request,
                 name="home.html",
                 context={"first_name": user["first_name"], "hash_num": user["reference_id"]}
             )
 
-        return templates_2.TemplateResponse(
-                request=request,
-                name="cookie_error.html",
-            )
+        return RedirectResponse(
+            url="/home",
+            status_code=303
+        )
 
     except Exception as e:
         raise
@@ -155,11 +162,10 @@ async def account_signup(request: Request):
 @app.post("/signup/v1", response_class=HTMLResponse)
 async def account_creation(user: Annotated[User, Form()], request: Request, response: Response):
     requests_data.inc()
-    hashed_value = hashlib.md5(user.first_name.encode("UTF-8")).hexdigest()
     try:
         db = connect_to_db()
         cursor = db.cursor()
-        query = "INSERT INTO users (tenant_id, first_name, last_name, email, password, age, country, reference_id, session_id) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)"
+        query = "INSERT INTO users (tenant_id, first_name, last_name, email, password, age, country, reference_id, session_id, expires_at) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
         user.reference_id = f"{"".join(random.choices(string.ascii_letters + string.digits + string.punctuation, k=15))}"
 
         data = (
@@ -171,7 +177,8 @@ async def account_creation(user: Annotated[User, Form()], request: Request, resp
             user.age,
             user.country,
             user.reference_id,
-            hashed_value
+            hashed_token,
+            expiration_date()
         )
 
         cursor.execute(query, data)
@@ -183,7 +190,9 @@ async def account_creation(user: Annotated[User, Form()], request: Request, resp
 
         success_response.set_cookie(
             key="session_id",
-            value=hashed_value
+            value=hashed_token,
+            path="/",
+            samesite="lax"
         )
 
         return success_response
@@ -238,16 +247,15 @@ async def account_login(request: Request, response: Response, email: str = Form(
                 context={"error": "Incorrect email or password"}
             )
 
-        hashed_value = hashlib.md5(user["first_name"].encode("UTF-8")).hexdigest()
         response.set_cookie(
             key="session_id",
-            value=hashed_value,
+            value=hashed_token,
+            path="/",
             samesite="lax"
         )
 
-        # cursor_2 = db.cursor()
-        query_2 = "UPDATE users SET session_id = %s WHERE email = %s and password = %s"
-        data_2 = (hashed_value, user["email"], user["password"])
+        query_2 = "UPDATE users SET session_id = %s, expires_at = %s WHERE email = %s and password = %s"
+        data_2 = (hashed_token, expiration_date(), user["email"], user["password"])
         cursor.execute(query_2, data_2)
 
         success_response = RedirectResponse(
@@ -262,5 +270,4 @@ async def account_login(request: Request, response: Response, email: str = Form(
 
     finally:
         cursor.close()
-        # cursor_2.close()
         db.close()
