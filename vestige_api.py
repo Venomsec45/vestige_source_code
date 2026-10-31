@@ -178,7 +178,7 @@ async def account_creation(user: Annotated[User, Form()], request: Request, resp
             user.first_name,
             user.last_name,
             user.email,
-            user.password,
+            hash_256_password(user.password),
             user.age,
             user.country,
             user.reference_id,
@@ -228,7 +228,8 @@ async def account_login(request: Request, response: Response, email: str = Form(
         db = connect_to_db()
         cursor = db.cursor(dictionary=True)
         query = ("SELECT first_name, last_name, email, password FROM users WHERE email = %s AND password = %s")
-        data = (email, password)
+        hashed_password = hash_256_password(password)
+        data = (email, hashed_password)
         cursor.execute(query, data)
         user = cursor.fetchone()
         if user is None:
@@ -238,14 +239,14 @@ async def account_login(request: Request, response: Response, email: str = Form(
                 context={"error": "Incorrect email or password"}
             )
 
-        elif password != user["password"]:
+        elif hashed_password != user["password"]:
             return templates.TemplateResponse(
                 request=request,
                 name="log_in.html",
                 context={"error": "Incorrect email or password"}
             )
 
-        elif email == user["email"] and password != user["password"]:
+        elif email == user["email"] and hashed_password != user["password"]:
             return templates.TemplateResponse(
                 request=request,
                 name="log_in.html",
