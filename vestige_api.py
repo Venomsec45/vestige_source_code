@@ -1,3 +1,4 @@
+# Third party libraries
 from pydantic import BaseModel, Field
 from fastapi import FastAPI, Form, Request
 from fastapi.responses import HTMLResponse, Response, RedirectResponse
@@ -5,10 +6,14 @@ from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 from datetime import datetime as dt, timedelta, timezone
 from typing import Annotated
+from prometheus_client import Counter, generate_latest
+
+# Libraries from a module
 from database.db_connection import connect_to_db
 from security.hash_token import hashed_token_generate
-import mysql.connector
-from prometheus_client import Counter, generate_latest
+from security.password_sha256_hash import hash_256_password
+
+# Standard libraries
 import string
 import random
 import hashlib
