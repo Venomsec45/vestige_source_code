@@ -2,52 +2,53 @@
 <html lang="en-US">
 <head>
     <meta charset="UTF-8">
-    <title>Vestige - Sign In</title>
-    <link rel="stylesheet" href="/css_design/signup.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vestige - Sign Up</title>
+    <link rel="stylesheet" href="/css_design/signup.css?v=2">
 </head>
-<header class="logo_position">
-    <img class="logo_adjust" src="/html_pages/pictures/vestige_logo.png">
-</header>
-    <body class="main_body">
-        <main>
-            <form class="form_border" method="POST" action="http://127.0.0.1:8000/signup/v1">
-                <div class="form_design">
-                    <h1 class="text_2">Sign Up</h1>
-                    <p class="text_3">Sign In to access our services, share art, and enjoy</p>
+<body class="auth_page">
+    <header class="logo_position">
+        <a href="/home"><img class="logo_adjust" src="/html_pages/pictures/vestige_logo.png" alt="Vestige - back to home"></a>
+    </header>
+    <main class="main_body">
+        <form class="form_border" method="POST" action="/signup/v1">
+            <h1 class="text_2">Sign Up</h1>
+            <p class="text_3">Create an account to access our services, share art, and enjoy</p>
 
-                    <div class="sub_form_1">
-                        <label class="sub_text_1" for="first_name">First Name</label>
-                        <label class="text_form" for="last_name">Last Name</label>
-                        <br><br>
-                        <input class="text_input" id="first_name" name="first_name" type="text" required>
-                        <input class="text_input" id="last_name" name="last_name" type="text" required>
-                    </div>
-                    <br><br>
-
-                    <div class="sub_form_1">
-                        <label class="sub_text_2" for="email">Email</label>
-                        <label class="text_form" for="password">Password</label>
-                        <br><br>
-                        <input class="text_input" id="email" name="email" type="email" required>
-                        <input class="text_input" id="password" name="password" type="password" required>
-                    </div>
-                    <br><br>
-
-                    <div class="sub_form_1">
-                        <label class="sub_text_3" for="age">Age</label>
-                        <label class="text_form" for="country">Country</label>
-                        <br><br>
-                        <input class="text_input" id="age" name="age" type="number" required>
-                        <input class="text_input" id="country" name="country" type="text" required>
-                    </div>
-                    <br><br>
+            <div class="form_design">
+                <div class="field">
+                    <label class="text_form" for="first_name">First Name</label>
+                    <input class="text_input" id="first_name" name="first_name" type="text" minlength="3" maxlength="8" autocomplete="given-name" required>
                 </div>
-
-                <div class="button_position">
-                    <button class="button_submit" type="submit">Create account</button>
-                    <h2>{{error}}</h2>
+                <div class="field">
+                    <label class="text_form" for="last_name">Last Name</label>
+                    <input class="text_input" id="last_name" name="last_name" type="text" minlength="3" maxlength="8" autocomplete="family-name" required>
                 </div>
-            </form>
-        </main>    
-    </body>
+                <div class="field">
+                    <label class="text_form" for="email">Email</label>
+                    <input class="text_input" id="email" name="email" type="email" autocomplete="email" required>
+                </div>
+                <div class="field">
+                    <label class="text_form" for="password">Password</label>
+                    <input class="text_input" id="password" name="password" type="password" autocomplete="new-password" required>
+                </div>
+                <div class="field">
+                    <label class="text_form" for="age">Age</label>
+                    <input class="text_input" id="age" name="age" type="number" min="18" max="90" required>
+                </div>
+                <div class="field">
+                    <label class="text_form" for="country">Country</label>
+                    <input class="text_input" id="country" name="country" type="text" autocomplete="country-name" required>
+                </div>
+            </div>
+            <p class="hint">Names must be 3 to 8 characters. You must be 18 to 90 years old.</p>
+
+            <div class="button_position">
+                <button class="button_submit" type="submit">Create account</button>
+            </div>
+            {% if error %}<p class="form_error" role="alert">{{ error }}</p>{% endif %}
+            <p class="switch_link">Already have an account? <a href="/login/v1">Log in</a></p>
+        </form>
+    </main>
+</body>
 </html>

@@ -2,36 +2,40 @@
 <html lang="en-US">
 <head>
     <meta charset="UTF-8">
-    <title>Vestige - Contact</title>
-    <link rel="stylesheet" href="css_design/about.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vestige - About</title>
+    <link rel="stylesheet" href="/css_design/about.css?v=2">
 </head>
-<header class="header_design">
-    <div class="logo_layout">
-        <img class="logo_size" src="html_pages/pictures/vestige_logo.png">
-    </div>
-    <nav class="navigation">
-        <a href="http://127.0.0.1:8000/home"><p>Home</p></a>
-        <a href="http://127.0.0.1:8000/about"><p>About</p></a>
-        <a href="http://127.0.0.1:8000/contact/v1"><p>Contact</p></a>
-        <a href="http://127.0.0.1:8000/login/v1"><p class="login_button">Log In</p></a>
-        <a href="http://127.0.0.1:8000/signup/v1"><p class="signup_button">Sign In</p></a>
-    </nav>
-</header>
 <body class="main_body">
-    <div class="adjust_body">
-        <h1 class="text_size">History of Vestige</h1>
-        <p class="break_line" >Vestige art museum was founded by Peter S. Moore in May 23, 2021. This place was establish to spread art everywhere. 5 years later, another platform was developed by Vestige, it was Vestige website where artists can share their art digitally. This website was made with no money involved but pure skill and hardwork. The early release of this website was April 15, 2026 and until now this website was still in a test as we continue to improve its functions, code, and security measures. (Disclaimer: This following paragraph is a sample data and doesnt represent a real company or a real person name).</p>
-    </div>
+    <header class="header_design">
+        <a class="logo_layout" href="/home"><img class="logo_size" src="/html_pages/pictures/vestige_logo.png" alt="Vestige"></a>
+        <nav class="navigation" aria-label="Main">
+            <a href="/home">Home</a>
+            <a href="/about" aria-current="page">About</a>
+            <a href="/contact/v1">Contact</a>
+            <a class="login_button" href="/login/v1">Log In</a>
+            <a class="signup_button" href="/signup/v1">Sign Up</a>
+        </nav>
+    </header>
+
+    <main class="page_content">
+        <div class="adjust_body">
+            <h1 class="text_size">History of Vestige</h1>
+            <p class="break_line">Vestige art museum was founded by Peter S. Moore on May 23, 2021. It was established to spread art everywhere. Five years later, Vestige developed another platform: the Vestige website, where artists can share their art digitally. This website was made with no money involved, only pure skill and hard work. It was first released on April 15, 2026, and it is still being tested as we continue to improve its functions, code, and security measures.</p>
+            <p class="disclaimer">Disclaimer: this paragraph is sample data and does not represent a real company or a real person.</p>
+        </div>
+    </main>
+
+    <footer class="footer_layout">
+        <div>
+            <img class="logo_in_footer" src="/html_pages/pictures/footer_vestige_logo.png" alt="Vestige">
+            <p class="footer_sub_message">Share, collaborate and create art with artists</p>
+            <p class="sub_message_5">&copy; 2026 Vestige. All rights reserved.</p>
+        </div>
+        <div class="logos_separate">
+            <a href="https://x.com/"><img class="x_logo_adjust" src="/html_pages/pictures/x_logo.png" alt="Vestige on X"></a>
+            <a href="https://facebook.com/"><img class="fb_logo_adjust" src="/html_pages/pictures/fb_logo.png" alt="Vestige on Facebook"></a>
+        </div>
+    </footer>
 </body>
-<footer class="footer_layout">
-    <div>
-        <img class="logo_in_footer" src="html_pages/pictures/footer_vestige_logo.png">
-        <p class="footer_sub_message">Share, collaborate and create art with artists</p>
-        <p class="sub_message_5">All rights reserved. 2026.</p>
-    </div>
-    <div class="logos_separate">
-        <a href="https://x.com/"><img class="x_logo_adjust" src="html_pages/pictures/x_logo.png" alt="X"></a>
-        <a href="https://facebook.com/"><img class="fb_logo_adjust" src="html_pages/pictures/fb_logo.png" alt="Facebook"></a>
-    </div>
-</footer>
 </html>

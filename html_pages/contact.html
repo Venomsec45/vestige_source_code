@@ -2,66 +2,66 @@
 <html lang="en-US">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width initial-scale:1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vestige - Contact</title>
-    <link rel="stylesheet" href="/css_design/contact.css">
+    <link rel="stylesheet" href="/css_design/contact.css?v=2">
 </head>
-<body>
+<body class="main_body">
     <header class="header_design">
-        <div class="logo_layout">
-            <img class="logo_size" src="html_pages/pictures/vestige_logo.png">
-        </div>
-        <nav class="navigation">
-            <a href="http://127.0.0.1:8000/home"><p>Home</p></a>
-            <a href="http://127.0.0.1:8000/about"><p>About</p></a>
-            <a href="http://127.0.0.1:8000/contact/v1"><p>Contact</p></a>
-            <a href="http://127.0.0.1:8000/login/v1"><p class="login_button">Log In</p></a>
-            <a href="http://127.0.0.1:8000/signup/v1"><p class="signup_button">Sign In</p></a>
+        <a class="logo_layout" href="/home"><img class="logo_size" src="/html_pages/pictures/vestige_logo.png" alt="Vestige"></a>
+        <nav class="navigation" aria-label="Main">
+            <a href="/home">Home</a>
+            <a href="/about">About</a>
+            <a href="/contact/v1" aria-current="page">Contact</a>
+            <a class="login_button" href="/login/v1">Log In</a>
+            <a class="signup_button" href="/signup/v1">Sign Up</a>
         </nav>
     </header>
-    <div class="main_body">
+
+    <main class="page_content contact_layout">
         <div class="description">
             <h1 class="sub_header">Contact Us</h1>
-            <div class="sub_description">
-                <p>You may contact us by filling the following form below with your information and we can respond to you by calling your contact number. We respect your personal information and keep it confidential. We ensure that the information that you send will not be disclosed to third parties.</p>
-            </div>
+            <p class="sub_description">You may contact us by filling in the form with your information, and we will respond by calling your contact number. We respect your personal information and keep it confidential. The information you send will not be disclosed to third parties.</p>
         </div>
-        <main>
-            <form class="form_layout" method="POST" action="http://127.0.0.1:8000/contact/v1">
-                <label class="text_space" for="first_name">First name</label>
-                <label for="last_name">Last name</label>
-                <br><br>
 
-                <input class="input_design" id="first_name" name="first_name" type="text" required>
-                <input class="input_design" id="last_name" name="last_name" type="text" required>
-                <br><br>
-
-                <label for="email">Email</label>
-                <br><br>
-                <input class="separate_input_design" id="email" name="email" type="text" required>
-                <br><br>
-
-                <label for="contact_number">Contact number</label>
-                <br><br>
-                <input class="separate_input_design" id="contact_number" name="contact_number" type="number" required>
-                <br><br>
-
-                <div class="button_layout">
-                    <button class="button_submit" type="submit">Submit</button>
-                    <h2>{{sent_message}}</h2>
+        <form class="form_layout" method="POST" action="/contact/v1">
+            <div class="name_row">
+                <div class="field">
+                    <label for="first_name">First name</label>
+                    <input class="input_design" id="first_name" name="first_name" type="text" minlength="3" autocomplete="given-name" required>
                 </div>
-            </form>
-        </main>
-    </div>
+                <div class="field">
+                    <label for="last_name">Last name</label>
+                    <input class="input_design" id="last_name" name="last_name" type="text" minlength="3" autocomplete="family-name" required>
+                </div>
+            </div>
+
+            <div class="field">
+                <label for="email">Email</label>
+                <input class="input_design" id="email" name="email" type="email" minlength="10" autocomplete="email" required>
+            </div>
+
+            <div class="field">
+                <label for="contact_number">Contact number</label>
+                <input class="input_design" id="contact_number" name="contact_number" type="tel" inputmode="numeric" pattern="[0-9]{10,15}" title="Digits only, 10 to 15 numbers" autocomplete="tel" required>
+            </div>
+
+            <div class="button_layout">
+                <button class="button_submit" type="submit">Submit</button>
+            </div>
+            {% if sent_message %}<p class="form_message" role="status">{{ sent_message }}</p>{% endif %}
+        </form>
+    </main>
+
     <footer class="footer_layout">
         <div>
-            <img class="logo_in_footer" src="html_pages/pictures/footer_vestige_logo.png">
+            <img class="logo_in_footer" src="/html_pages/pictures/footer_vestige_logo.png" alt="Vestige">
             <p class="footer_sub_message">Share, collaborate and create art with artists</p>
-            <p class="sub_message_5">All rights reserved. 2026.</p>
+            <p class="sub_message_5">&copy; 2026 Vestige. All rights reserved.</p>
         </div>
         <div class="logos_separate">
-            <a href="https://x.com/"><img class="x_logo_adjust" src="html_pages/pictures/x_logo.png" alt="X"></a>
-            <a href="https://facebook.com/"><img class="fb_logo_adjust" src="html_pages/pictures/fb_logo.png" alt="Facebook"></a>
+            <a href="https://x.com/"><img class="x_logo_adjust" src="/html_pages/pictures/x_logo.png" alt="Vestige on X"></a>
+            <a href="https://facebook.com/"><img class="fb_logo_adjust" src="/html_pages/pictures/fb_logo.png" alt="Vestige on Facebook"></a>
         </div>
     </footer>
 </body>

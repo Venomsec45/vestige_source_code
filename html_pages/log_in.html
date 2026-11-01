@@ -1,35 +1,33 @@
 <!DOCTYPE html>
 <html lang="en-US">
-    <head>
-        <meta charset="UTF-8">
-        <title>Vestige - Log In</title>
-        <link rel="stylesheet" href="/css_design/login.css">
-    </head>
-    <header>
-        <img class="logo_adjust" src="/html_pages/pictures/vestige_logo.png">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vestige - Log In</title>
+    <link rel="stylesheet" href="/css_design/login.css?v=2">
+</head>
+<body class="auth_page">
+    <header class="logo_position">
+        <a href="/home"><img class="logo_adjust" src="/html_pages/pictures/vestige_logo.png" alt="Vestige - back to home"></a>
     </header>
-    <body>
-        <section class="main_body">
-            <form class="form-design" method="POST" action="http://127.0.0.1:8000/login/v1">
-                <h1 class="text_2">Log In</h1>
-                <p class="text_3">Access our services, share art, and enjoy</p>
-                <div class="form_position">
-                    <label class="text_form" for="email">Email</label>
-                    <br><br>
-                    <input class="text_input" id="email" name="email" type="email" required>
-                    <br><br>
+    <main class="main_body">
+        <form class="form-design" method="POST" action="/login/v1">
+            <h1 class="text_2">Log In</h1>
+            <p class="text_3">Access our services, share art, and enjoy</p>
 
-                    <label class="text_form" for="password">Password</label>
-                    <br><br>
-                    <input class="text_input" id="password" name="password" type="password" required>
-                    <br><br>
+            <div class="field">
+                <label class="text_form" for="email">Email</label>
+                <input class="text_input" id="email" name="email" type="email" autocomplete="email" required>
+            </div>
+            <div class="field">
+                <label class="text_form" for="password">Password</label>
+                <input class="text_input" id="password" name="password" type="password" autocomplete="current-password" required>
+            </div>
 
-                </div>
-
-                <br><br>
-                <button class="button_submit" type="submit">Log In</button>
-                <h2>{{error}}</h2>
-            </form>    
-        </section>
-    </body>
+            <button class="button_submit" type="submit">Log In</button>
+            {% if error %}<p class="form_error" role="alert">{{ error }}</p>{% endif %}
+            <p class="switch_link">No account yet? <a href="/signup/v1">Sign up</a></p>
+        </form>
+    </main>
+</body>
 </html>
