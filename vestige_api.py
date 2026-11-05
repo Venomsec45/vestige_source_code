@@ -96,8 +96,13 @@ def metrics():
 
 
 @app.get("/")
-def redirection():
-    return RedirectResponse(url="/home", status_code=303)
+def redirection(request: Request):
+    requests_data.inc()
+    session_token = request.cookies.get(SESSION_COOKIE)
+    if not session_token:
+        return RedirectResponse(url="/home", status_code=303)
+
+    return RedirectResponse(url="/user_home", status_code=303)
 
 
 # Plain "def" (not "async def") for routes that use the blocking MySQL
@@ -106,8 +111,6 @@ def redirection():
 def user_homepage(request: Request):
     requests_data.inc()
     session_token = request.cookies.get(SESSION_COOKIE)
-    if not session_token:
-        return RedirectResponse(url="/home", status_code=303)
 
     db = connect_to_db()
     cursor = db.cursor(dictionary=True, buffered=True)
@@ -132,9 +135,34 @@ def user_homepage(request: Request):
 
 # Homepage
 @app.get("/home", response_class=HTMLResponse)
-async def home(request: Request):
+async def home(request: Request, response: Response):
     requests_data.inc()
     return templates.TemplateResponse(request=request, name="homepage.html")
+
+# Homepage when session cookie needs to be removed
+@app.post("/home", response_class=HTMLResponse)
+def logout(request: Request):
+    requests_data.inc()
+    db = connect_to_db()
+    cursor = db.cursor()
+    try:
+        if request.cookies.get(SESSION_COOKIE):
+            query = "UPDATE users SET session_id = NULL, expires_at = NULL WHERE session_id = %s"
+            session_cookie = request.cookies.get(SESSION_COOKIE)
+            cursor.execute(query, (session_cookie, ))
+            db.commit()
+
+    except Exception:
+        db.rollback()
+        raise
+
+    finally:
+        cursor.close()
+        db.close()
+    webpage = templates.TemplateResponse(request=request, name="homepage.html")
+    webpage.delete_cookie(key=SESSION_COOKIE, path="/", samesite="lax")
+    return webpage
+
 
 
 # About
