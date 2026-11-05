@@ -14,12 +14,72 @@ body {
     background-color: #faf7f0;
 }
 
+img {
+    max-width: 100%;
+    display: block;
+}
+
+/* Header */
+.site_header {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    padding: 16px clamp(16px, 5vw, 48px);
+    border-bottom: 2px solid #1A1A1A;
+    background-color: #ffffff;
+}
+
+.brand img {
+    height: 44px;
+    width: auto;
+}
+
+.site_nav {
+    display: flex;
+    gap: clamp(12px, 3vw, 28px);
+}
+
+.site_nav a {
+    color: #1A1A1A;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.site_nav a:hover,
+.site_nav a:focus-visible {
+    color: #8f6806;
+    text-decoration: underline;
+}
+
+.logout_button {
+    border-radius: 30px;
+    background-color: #ffffff;
+    font-family: "DM Sans", sans-serif;
+    padding: 10px 20px 10px 20px;
+    font-size: 20px;
+    font-weight: bold;
+    border: 1px solid #8f6806;
+    transition: 1.5s background-color;
+}
+
+.logout_button:hover {
+    border-radius: 30px;
+    background-color: #8f6806;
+    font-family: "DM Sans", sans-serif;
+    padding: 10px 20px 10px 20px;
+    font-size: 20px;
+    font-weight: bold;
+    border: 1px solid #1A1A1A;
+}
+
 .part_1 {
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
-    padding: 24px 16px;
+    min-height: 60vh;
+    padding: 48px 16px;
 }
 
 .sub_part_1 {
@@ -40,4 +100,169 @@ body {
 .sub_part_1 a {
     font-weight: 700;
     color: #8f6806;
+}
+
+/* Shared section layout */
+.section {
+    width: min(100% - 32px, 960px);
+    margin: 0 auto;
+    padding: 48px 0;
+    border-top: 1px solid #e3dccb;
+}
+
+.section h2 {
+    margin: 0 0 12px;
+    font-size: clamp(22px, 4vw, 28px);
+    line-height: 1.25;
+}
+
+.section h3 {
+    margin: 0 0 6px;
+    font-size: 18px;
+}
+
+.section p {
+    margin: 0;
+}
+
+.section_intro {
+    max-width: 65ch;
+    margin-bottom: 24px !important;
+}
+
+/* Event info cards */
+.card_grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+}
+
+.info_card {
+    padding: 20px;
+    background-color: #ffffff;
+    border: 2px solid #1A1A1A;
+    border-radius: 16px;
+}
+
+.info_card h3 {
+    color: #8f6806;
+}
+
+/* Schedule timeline */
+.timeline {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 16px;
+}
+
+.timeline li {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    padding: 16px 20px;
+    background-color: #ffffff;
+    border-left: 4px solid #8f6806;
+    border-radius: 8px;
+}
+
+.timeline_day {
+    flex-shrink: 0;
+    min-width: 64px;
+    padding: 4px 10px;
+    font-weight: 700;
+    font-size: 14px;
+    text-align: center;
+    color: #ffffff;
+    background-color: #1A1A1A;
+    border-radius: 999px;
+}
+
+/* Artwork preview */
+.art_grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+}
+
+.art_grid figure {
+    margin: 0;
+    background-color: #ffffff;
+    border: 2px solid #1A1A1A;
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+.art_grid img {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+}
+
+.art_grid figcaption {
+    padding: 12px 16px;
+    font-weight: 600;
+}
+
+/* Travel checklist */
+.check_list {
+    list-style: none;
+    margin: 0 0 20px;
+    padding: 0;
+    display: grid;
+    gap: 10px;
+}
+
+.check_list li {
+    position: relative;
+    padding-left: 32px;
+}
+
+.check_list li::before {
+    content: "\2713";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 22px;
+    height: 22px;
+    line-height: 22px;
+    text-align: center;
+    font-size: 13px;
+    font-weight: 700;
+    color: #ffffff;
+    background-color: #8f6806;
+    border-radius: 50%;
+}
+
+.help_text a {
+    font-weight: 700;
+    color: #8f6806;
+}
+
+/* Footer */
+.site_footer {
+    margin-top: 24px;
+    padding: 32px 16px;
+    text-align: center;
+    color: #faf7f0;
+    background-color: #1A1A1A;
+}
+
+.footer_logo {
+    height: 40px;
+    width: auto;
+    margin: 0 auto 12px;
+}
+
+.site_footer p {
+    margin: 0;
+    font-size: 14px;
+}
+
+@media (max-width: 480px) {
+    .timeline li {
+        flex-direction: column;
+        gap: 8px;
+    }
 }
