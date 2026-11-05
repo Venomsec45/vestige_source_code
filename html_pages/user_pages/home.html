@@ -4,9 +4,18 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Vestige - Welcome</title>
-        <link rel="stylesheet" href="/css_design/user_page_css/home.css?v=2">
+        <link rel="stylesheet" href="/css_design/user_page_css/home.css?v=3">
     </head>
     <body>
+        <header class="site_header">
+            <a href="/home" class="brand">
+                <img src="/html_pages/pictures/vestige_logo.png" alt="Vestige logo">
+            </a>
+            <form action="http://127.0.0.1:8000/home" method="POST">
+                <button class="logout_button" type="submit">Log out</button>
+            </form>
+        </header>
+
         <main class="part_1">
             <div class="sub_part_1">
                 <h1>Welcome to our community, {{first_name}}</h1>
@@ -14,5 +23,84 @@
                 <p>Number: {{hash_num}}</p>
             </div>
         </main>
+
+        <section class="section event_info" aria-labelledby="event_heading">
+            <h2 id="event_heading">About Vestige ARTGO</h2>
+            <p class="section_intro">ARTGO brings together painters, sculptors, photographers and digital artists for a weekend of exhibitions, live work and conversation. As a registered artist, you get a space to show your work and meet collectors, curators and other artists.</p>
+
+            <div class="card_grid">
+                <article class="info_card">
+                    <h3>Exhibit</h3>
+                    <p>Show up to three pieces in the main gallery hall. Each artist gets a labelled space and a short profile in the event guide.</p>
+                </article>
+                <article class="info_card">
+                    <h3>Create live</h3>
+                    <p>Join the open studio sessions and work in front of visitors. Materials for sketching and painting are provided on site.</p>
+                </article>
+                <article class="info_card">
+                    <h3>Connect</h3>
+                    <p>Meet other artists at the evening mixer, take part in portfolio reviews, and talk with gallery owners looking for new talent.</p>
+                </article>
+            </div>
+        </section>
+
+        <section class="section schedule" aria-labelledby="schedule_heading">
+            <h2 id="schedule_heading">Event schedule</h2>
+            <ol class="timeline">
+                <li>
+                    <span class="timeline_day">Day 1</span>
+                    <div>
+                        <h3>Arrival and setup</h3>
+                        <p>Check in at the registration desk with your number, collect your artist badge, and set up your exhibit space.</p>
+                    </div>
+                </li>
+                <li>
+                    <span class="timeline_day">Day 2</span>
+                    <div>
+                        <h3>Opening exhibition</h3>
+                        <p>Doors open to the public. Open studio sessions run through the afternoon, followed by the artist mixer in the evening.</p>
+                    </div>
+                </li>
+                <li>
+                    <span class="timeline_day">Day 3</span>
+                    <div>
+                        <h3>Reviews and closing</h3>
+                        <p>Portfolio reviews in the morning, the community showcase in the afternoon, and the closing ceremony at sunset.</p>
+                    </div>
+                </li>
+            </ol>
+        </section>
+
+        <section class="section gallery_preview" aria-labelledby="gallery_heading">
+            <h2 id="gallery_heading">From the Vestige gallery</h2>
+            <p class="section_intro">A preview of work from artists in our community. Your pieces could be featured here next.</p>
+            <div class="art_grid">
+                <figure>
+                    <img src="/html_pages/pictures/art_work_1.jpg" alt="Featured artwork from the Vestige community" loading="lazy">
+                    <figcaption>Featured artwork</figcaption>
+                </figure>
+                <figure>
+                    <img src="/html_pages/pictures/art_work_2.jpg" alt="Second featured artwork from the Vestige community" loading="lazy">
+                    <figcaption>Community pick</figcaption>
+                </figure>
+            </div>
+        </section>
+
+        <section class="section checklist" aria-labelledby="checklist_heading">
+            <h2 id="checklist_heading">Before you travel</h2>
+            <ul class="check_list">
+                <li>Save your registration number. You will need it to check in.</li>
+                <li>Bring a valid photo ID that matches the name you registered with.</li>
+                <li>Pack your artwork securely and label each piece with your name.</li>
+                <li>Prepare a short artist bio (two or three sentences) for the event guide.</li>
+                <li>Plan your travel and accommodation early. California venues book up fast.</li>
+            </ul>
+            <p class="help_text">Questions about your registration? <a href="/contact/v1">Contact our team</a> and we will get back to you.</p>
+        </section>
+
+        <footer class="site_footer">
+            <img src="/html_pages/pictures/footer_vestige_logo.png" alt="Vestige" class="footer_logo">
+            <p>&copy; 2026 Vestige Gallery. Built by artists, for artists.</p>
+        </footer>
     </body>
 </html>
