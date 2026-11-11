@@ -18,6 +18,7 @@ from security.password_sha256_hash import hash_256_password
 
 # Standard libraries
 from pathlib import Path
+from contextlib import contextmanager
 import hmac
 import secrets
 import string
@@ -32,7 +33,7 @@ SESSION_COOKIE = "session_id"
 SESSION_LIFETIME = timedelta(days=1)
 
 # JWT Tokens
-JWT_SECRET = os.environ.get("JWT_SECRET")
+JWT_SECRET = os.environ.get("JWT_SECRET") if os.environ.get("JWT_SECRET") else secrets.token_hex(30)
 JWT_ALGORITHM = "HS256" # Commonly used JWT algorithm
 
 # Used for storing metrics or user data
@@ -133,6 +134,22 @@ def hash_password(password: str) -> str:
 
 def verify_password(password: str, hashed_password: str) -> str:
     return bcrypt.checkpw(password.encode(), hashed_password.encode())
+
+# Database connection
+def db_cursor(dictionary=False):
+    db = connect_to_db() # Connects to the MySQL database
+    cursor = db.cursor(dictionary=dictionary) # Sets the dictionary to False
+    try: 
+        yield cursor # One at a time
+        db.commit() # Automatically saves user information in the database
+
+    except Exception:
+        db.rollback() # Undo changes
+        raise
+
+    finally: # Whether the connection was successful or not successful
+        cursor.close() # Stops querying session
+        db.close() # Stops database session
 
 
 # Collects user metrics then stores them then sends to the grafana client
