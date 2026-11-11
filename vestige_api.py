@@ -132,10 +132,11 @@ def set_session_cookie(response: Response, token: str) -> None:
 def hash_password(password: str) -> str:
     return bcrypt.hashpw(password.encode(), bcrypt.gensalt()).decode()
 
-def verify_password(password: str, hashed_password: str) -> str:
+def verify_password(password: str, hashed_password: str) -> bool:
     return bcrypt.checkpw(password.encode(), hashed_password.encode())
 
 # Database connection
+@contextmanager
 def db_cursor(dictionary=False):
     db = connect_to_db() # Connects to the MySQL database
     cursor = db.cursor(dictionary=dictionary) # Sets the dictionary to False
@@ -271,44 +272,34 @@ async def signup_page(request: Request):
 @app.post("/signup/v1", response_class=HTMLResponse)
 def signup_submit(user: Annotated[User, Form()], request: Request):
     requests_data.inc()
-    db = connect_to_db()
-    cursor = db.cursor()
     try:
-        query = "INSERT INTO users (tenant_id, first_name, last_name, email, password, age, country, reference_id) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
-        data = (
-            secrets.choice([1, 2, 3]),
-            user.first_name,
-            user.last_name,
-            user.email,
-            hash_256_password(user.password),
-            user.age,
-            user.country,
-            generate_reference_id()
-        )
-        cursor.execute(query, data)
-        db.commit()
-        new_artist_id = cursor.lastrowid
+        with db_cursor() as cursor:
+            query = "INSERT INTO users (tenant_id, first_name, last_name, email, password, age, country, reference_id) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
+            data = (
+                secrets.choice([1, 2, 3]),
+                user.first_name,
+                user.last_name,
+                user.email,
+                hash_password(user.password),
+                user.age,
+                user.country,
+                generate_reference_id()
+            )
+            cursor.execute(query, data)
+            new_artist_id = cursor.lastrowid
+
     except mysql.connector.IntegrityError:
-        # e.g. the email is already registered (if the column is UNIQUE)
-        db.rollback()
         return templates.TemplateResponse(
             request=request,
             name="sign_up.html",
             context={"error": "An account with that email already exists"},
             status_code=400
         )
-    except Exception:
-        db.rollback()
-        raise
-    finally:
-        cursor.close()
-        db.close()
 
     session_token = create_jwt_token(new_artist_id, 0)
     success_response = RedirectResponse(url="/user_home", status_code=303)
     set_session_cookie(success_response, session_token)
     return success_response
-
 
 # Shows the login page
 @app.get("/login/v1", response_class=HTMLResponse)
@@ -328,29 +319,23 @@ def login_submit(request: Request, email: str = Form(), password: str = Form()):
         status_code=401
     )
 
-    db = connect_to_db()
-    cursor = db.cursor(dictionary=True)
     try:
-        cursor.execute("SELECT artist_id, token_version, password FROM users WHERE email = %s", (email,))
-        user = cursor.fetchone()
+        with db_cursor(True) as cursor:
+            cursor.execute("SELECT artist_id, token_version, password FROM users WHERE email = %s", (email,))
+            user = cursor.fetchone()
 
-        # Constant-time comparison so response timing doesn't leak hash info
-        if user is None or not verify_password(password, user["password"]):
-            return login_failed
+            # Constant-time comparison so response timing doesn't leak hash info
+            if user is None or not verify_password(hash_password(password), user["password"]):
+                return login_failed
 
-        # New token on every login so an old/stolen cookie stops working
-        session_token = create_jwt_token(user["artist_id"], user["token_version"])
-        cursor.execute(
-            "UPDATE users SET session_id = %s, expires_at = %s WHERE email = %s",
-            (session_token, expiration_date(), user["email"])
-        )
-        db.commit()  # Without this the new session was never saved
-    except Exception:
-        db.rollback()
-        raise
-    finally:
-        cursor.close()
-        db.close()
+            # New token on every login so an old/stolen cookie stops working
+            session_token = create_jwt_token(user["artist_id"], user["token_version"])
+            cursor.execute(
+                "UPDATE users SET session_id = %s, expires_at = %s WHERE email = %s",
+                (session_token, expiration_date(), user["email"])
+            )
+    except mysql.connector.IntegrityError:
+        return login_failed
 
     success_response = RedirectResponse(url="/user_home", status_code=303)
     # The cookie must go on the response that is actually returned
