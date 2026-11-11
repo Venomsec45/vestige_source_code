@@ -2,3 +2,5 @@ mysql-connector-python
 fastapi[standard]
 python-multipart
 prometheus_client
+PyJWT
+bcrypt
